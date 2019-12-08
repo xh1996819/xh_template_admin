@@ -2,8 +2,8 @@
   <div class="dashboard-container">
     <h1>Todo</h1>
     <!-- 录入框 -->
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="添加项目">
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form-item label="添加项目" prop="desc">
         <el-input
           type="input"
           clearable
@@ -26,8 +26,12 @@
           <el-table-column prop="creatTime" label="创建时间"></el-table-column>
           <el-table-column prop="date" label="代办项目"></el-table-column>
           <el-table-column label="操作" align="center">
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
-            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-tooltip effect="dark" content="添加到完成中" placement="top">
+              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="添加到已完成" placement="top">
+              <el-button type="success" icon="el-icon-check" circle></el-button>
+            </el-tooltip>
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </el-table-column>
         </el-table>
@@ -41,8 +45,12 @@
           <el-table-column prop="creatTime" label="创建时间"></el-table-column>
           <el-table-column prop="date" label="代办项目"></el-table-column>
           <el-table-column label="操作" align="center">
-            <el-button type="info" icon="el-icon-close" circle></el-button>
-            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-tooltip effect="dark" content="添加到未开始" placement="top">
+              <el-button type="info" icon="el-icon-close" circle></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="添加到已完成" placement="top">
+              <el-button type="success" icon="el-icon-check" circle></el-button>
+            </el-tooltip>
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </el-table-column>
         </el-table>
@@ -56,8 +64,12 @@
           <el-table-column prop="doneTime" label="完成时间"></el-table-column>
           <el-table-column prop="date" label="代办项目"></el-table-column>
           <el-table-column label="操作" align="center">
-            <el-button type="info" icon="el-icon-close" circle></el-button>
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-tooltip effect="dark" content="添加到未开始" placement="top">
+              <el-button type="info" icon="el-icon-close" circle></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="添加到完成中" placement="top">
+              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            </el-tooltip>
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </el-table-column>
         </el-table>
@@ -80,6 +92,9 @@ export default {
       form: {
         desc: ""
       },
+      rules: {
+        desc: [{ required: true, message: "请填写待办项", trigger: "blur" }]
+      },
       toDoList: [{ creatTime: "", date: "123" }],
       workList: [{ creatTime: "", date: "456" }],
       doneList: [{ creatTime: "", doneTime: "", date: "789" }]
@@ -87,13 +102,17 @@ export default {
   },
   methods: {
     onSubmit() {
-      let date = new Date();
-      date = moment(date).format("YYYY-MM-DD hh:mm:ss");
-      this.toDoList = [
-        ...this.toDoList,
-        { creatTime: date, date: this.form.desc }
-      ];
-      this.form.desc = "";
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          let date = new Date();
+          date = moment(date).format("YYYY-MM-DD hh:mm:ss");
+          this.toDoList = [
+            ...this.toDoList,
+            { creatTime: date, date: this.form.desc }
+          ];
+          this.form.desc = "";
+        }
+      });
     }
   }
 };
