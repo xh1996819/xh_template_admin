@@ -104,6 +104,26 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/classManage',
+    component: Layout,
+    redirect: '/classManage',
+    children: [
+      {
+        path: 'classManage',
+        name: 'ClassManage',
+        component: () => import('@/views/classManage/index'),
+        meta: { title: '班级管理demo', icon: 'form' },
+      },
+      {
+        path: 'classManageControl',
+        name: 'ClassManageControl',
+        hidden: true,
+        component: () => import('@/views/classManage/children/index'),
+        meta: { title: '班级管理', icon: '' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
