@@ -3,11 +3,7 @@
     <el-checkbox-group v-model="checkList">
       <el-checkbox v-for="(item, i) in chooseGroup" :key="i" :label="item.name"></el-checkbox>
     </el-checkbox-group>
-
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="sendCheckList">确 定</el-button>
-    </span>
+    <slot :data="checkList"></slot>
   </div>
 </template>
 
@@ -15,10 +11,12 @@
 export default {
   data() {
     return {
+      data: 123,
       number: 1,
       checkList: [],
       chooseGroup: [],
       sendList: []
+      // isFirstSend: false
     };
   },
   created() {},
@@ -42,8 +40,10 @@ export default {
       }, 150);
     },
     sendCheckList() {
+      // this.isFirstSend = true;
+      this.sendList = this.checkList;
       //   console.log(this.checkList);
-      this.sendList.filter(item => !this.checkList.includes(item));
+      // this.sendList.filter(item => !this.checkList.includes(item));
       this.$emit("getCheckList", this.sendList);
     }
   }
