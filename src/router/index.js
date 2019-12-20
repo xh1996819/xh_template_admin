@@ -108,19 +108,21 @@ export const constantRoutes = [
     path: '/classManage',
     component: Layout,
     redirect: '/classManage',
+    // alwaysShow:true,
+    // meta: { title: '班级管理demo', icon: 'form' },
     children: [
       {
-        path: 'classManage',
+        path: '/classManage',
         name: 'ClassManage',
         component: () => import('@/views/classManage/index'),
         meta: { title: '班级管理demo', icon: 'form' },
       },
       {
-        path: 'classManageControl',
+        path: '/classManageControl',
         name: 'ClassManageControl',
         hidden: true,
         component: () => import('@/views/classManage/children/index'),
-        meta: { title: '班级管理', icon: '' }
+        meta: { title: '班级管理', icon: '' },
       }
     ]
   },

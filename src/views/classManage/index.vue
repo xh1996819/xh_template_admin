@@ -17,7 +17,11 @@ export default {
       title: ["姓名", "时间", "id"]
     };
   },
-  components: { xhTable }
+  components: { xhTable },
+  created() {
+    let date = Date.parse(new Date());
+    console.log(this.$date.dateFormat(date, "Y/m/d H:i:s"));
+  }
 };
 </script>
 
