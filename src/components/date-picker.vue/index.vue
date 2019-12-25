@@ -1,6 +1,6 @@
 <template>
   <div v-click-outside>
-    <el-input type="text" :value="formatDate" style="width: 20%" @focus="focus" @blur="blur"></el-input>
+    <el-input :value="formatDate" style="width: 20%" />
     <div v-if="isVisible">
       contenet
       <el-button type="primary"></el-button>
@@ -26,6 +26,9 @@ export default {
         };
         el.handler = handler;
         document.addEventListener("click", handler);
+      },
+      unbind(el) {
+        document.removeEventListener("click", el.handler);
       }
     }
   },
