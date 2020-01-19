@@ -1,22 +1,32 @@
 <template>
   <div>
     <el-button @click="$router.push({name:'ClassManageControl'})"></el-button>
+    <el-button type="primary" @click="showDialog"></el-button>
+
     <xh-table :tableData="classList" :title="title"></xh-table>
-    <div class="input-box">
-      <input
-        v-for="item in 4"
-        :key="item"
-        :ref="`input${item}`"
-        maxlength="1"
-        type="text"
-        @keyup="nextFocus(item)"
-      />
-    </div>
+
+    <div v-for="item in selectData" :key="item.name">{{item}}</div>
+
+    <el-dialog title :visible.sync="dialogVisible" @opened="initData" width="60%">
+      <select-table
+        v-if="reset"
+        ref="selectTable"
+        :tableData.sync="classList2"
+        :selectData.sync="selectData"
+        :selectType="2"
+        @exportData="importData"
+      ></select-table>
+      <span slot="footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import xhTable from "@/components/xhTable";
+import selectTable from "./components/selectTable";
 export default {
   data() {
     return {
@@ -24,33 +34,43 @@ export default {
         { name: "张三", time: "2019/9/19", id: "1" },
         { name: "李四", time: "2019/10/20", id: "2" }
       ],
-      title: ["姓名", "时间", "id"]
+      classList2: [
+        { name: "舞蹈特训班1", population: 1, remark: "这里是备注1" },
+        { name: "舞蹈特训班2", population: 2, remark: "这里是备注2" },
+        { name: "舞蹈特训班3", population: 3, remark: "这里是备注3" }
+      ],
+      reset: true,
+      selectData: [],
+      title: ["姓名", "时间", "id"],
+      dialogVisible: false
     };
   },
-  components: { xhTable },
+  components: { xhTable, selectTable },
   created() {
     let date = Date.parse(new Date());
     console.log(this.$date.dateFormat(date, "Y/m/d H:i:s"));
   },
-  mounted() {},
+  mounted() {
+    // this.classList2 = this.syncData();
+  },
   methods: {
-    nextFocus(item) {
-      if (item <= 3) {
-        this.$refs[`input${item + 1}`][0].focus();
-      }
+    showDialog() {
+      this.dialogVisible = true;
+    },
+    initData() {
+      this.$refs.selectTable.initData();
+    },
+    confirm() {
+      this.$refs.selectTable.exportData();
+      this.dialogVisible = false;
+    },
+    importData(val) {
+      console.log(val);
+      this.selectData = [...val];
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.input-box {
-  display: flex;
-  input {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #000;
-    text-align: center;
-  }
-}
 </style>

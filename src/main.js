@@ -15,6 +15,9 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import '@/utils/date-format'
+import '@/utils/random'
+
+import '@/components/index'
 
 
 /**

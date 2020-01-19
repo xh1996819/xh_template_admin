@@ -126,6 +126,19 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/processor',
+    component: Layout,
+    redirect: '/processor',
+    children: [
+      {
+        path: '/processor',
+        name: 'Processor',
+        component: () => import('@/views/processor/index'),
+        meta: { title: '分发器组件', icon: 'form' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

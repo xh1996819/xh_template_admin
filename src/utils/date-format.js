@@ -1,7 +1,3 @@
-import Vue from 'vue'
-
-let date = Date.parse(new Date()) // 获取当前时间戳（毫秒）
-
 /**
  * timestamp 当前时间戳，毫秒
  * formats 时间格式，包括：
@@ -10,6 +6,8 @@ let date = Date.parse(new Date()) // 获取当前时间戳（毫秒）
  *            3.Y年m月d日
  *            4.Y年m月d日 H时i分s秒
  */
+
+import Vue from 'vue'
 
 const _date = {
     dateFormat: (timestamp, formats) => {
